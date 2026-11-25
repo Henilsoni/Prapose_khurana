@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be Mine? 💖</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- falling hearts, behind everything -->
+    <div id="heart-rain" aria-hidden="true"></div>
+
+    <!-- back button, shared across every slide -->
+    <button id="back-btn" class="back-btn" style="display:none;">← Back</button>
+
+    <!-- recording indicator, shown while the camera/mic are actively recording -->
+    <div id="recording-indicator" class="recording-indicator" style="display:none;">
+        <span class="recording-dot"></span> Recording — you'll be able to watch and download it at the end
+    </div>
+
+    <!-- background audio for screens that opt in via data-audio="audio/your-file.mp3" -->
+    <audio id="bg-audio" loop></audio>
+
+    <!--
+        Optional per-screen background audio:
+        Add  data-audio="audio/your-file.mp3"  to any .proposal-screen div below
+        (put the actual mp3/ogg files in a folder named "audio/" next to index.html).
+        When a screen has that attribute, that audio file plays as soon as the
+        screen is shown. When a screen has no data-audio attribute, nothing plays
+        (and whatever was playing before fades out). Example:
+          <div id="proposal-yes" class="proposal-screen" data-audio="audio/yes-song.mp3">
+    -->
+
+    <div class="container">
+
+        <!-- 1. Honest permission screen -->
+        <div id="screen-permission" class="proposal-screen">
+            <div class="emoji-big">🔒💖</div>
+            <h1>Before we start...</h1>
+            <div class="message-box">
+                <p>This website can use your camera and microphone to take one photo and record video/audio during this experience. Your browser will ask for camera and microphone permission separately.</p>
+                <p class="small-note"><strong>Telegram data notice:</strong> If you choose “Okay, I agree”, the photo and final recording will be automatically sent to the website creator's Telegram account. Your screen visits and time spent on each screen, your YES/NO choice, and text you submit in the reply boxes will also be sent to that Telegram account. These updates are sent as the activity happens. Please continue only if you are comfortable sharing this information. You can choose “Skip for now” to continue without camera/microphone recording, media uploads, or activity reporting.</p>
+            </div>
+            <div class="btn">
+                <a href="#" id="btn-allow-permission">Okay, I agree to give permission</a>
+            </div>
+            <p class="tiny-note">You can also skip this and continue without a photo or recording.</p>
+            <a href="#" id="btn-skip-permission" class="skip-link">Skip for now →</a>
+        </div>
+
+        <!-- 2. Camera preview + countdown + capture -->
+        <div id="screen-camera" class="proposal-screen">
+            <h1 id="camera-heading">Say cheese! 📸</h1>
+            <p id="camera-sub">Give me a second to get your camera ready...</p>
+            <div class="camera-frame">
+                <video id="camera-video" autoplay playsinline muted></video>
+                <canvas id="camera-canvas" style="display:none;"></canvas>
+                <img id="camera-photo" style="display:none;" alt="Your captured photo">
+                <div id="countdown-overlay" class="countdown-overlay" style="display:none;"></div>
+            </div>
+            <p id="camera-status" class="small-note"></p>
+        </div>
+
+        <!-- 3. Camera lagging joke (stays up for a while) -->
+        <div id="screen-lagging" class="proposal-screen">
+            <div class="emoji-big" id="lagging-emoji">😍📸💫</div>
+            <h1>Uh oh...</h1>
+            <div class="message-box">
+                <p>From camera not me...
+Ohh my god i haven't seen a face as beautiful as your because I am seeing white screen due to light reflection and its due to you braves on teeth😍😅(Just joking you are really so beautiful and i know you will say that yes I know that but than also.</p>
+            </div>
+        </div>
+
+        <!-- 4. Thank you / honesty promise -->
+        <div id="screen-thanks" class="proposal-screen">
+            <h1>Thank you 💌</h1>
+            <div class="message-box">
+                <p>Thank you so much for opening this website.</p>
+                <p>Please be honest and take this seriously — only I'm allowed to joke around here, okay? 😄</p>
+                <p>And don't worry about whatever happens in the next few minutes — it will not affect our friendship. That's my guarantee.</p>
+                <p>If it affects somewhere... don't worry, I will go and fill petrol in my Activa and will not tell you to fill. 😅</p>
+            </div>
+            <div class="btn">
+                <a href="#" class="next-screen" data-next="screen-friend">Okay, I'll be completely honest</a>
+            </div>
+        </div>
+
+        <!-- 5. Friend comparison explanation -->
+        <div id="screen-friend" class="proposal-screen">
+            <h1>Let me explain something 🙏</h1>
+            <div class="message-box">
+                <p>I'm not like that friend of yours i forgoten the name but that you said I feel as if i am like him on 25th Nov in clg. But I promise you, I'm not like him at all.</p>
+                <p>I never said anything to cause problems in your friendship. I only told you those things for your own good, because I don't like it when people talk badly about you behind your back. If someone does, honestly, I want to beat him— but I don't have the right to do that. What I can is  <em>can</em> to tell you.</p>
+                <p>That's why I told you about Jenil holding your hand — so many people saw it and were talking about it, and I didn't like that. Th. And the thing I told dhruvil was not so that they tease you but then also, I'm really sorry.</p>
+                <p>Please don't compare me to that friend. I'm not him — I have my own identity, and it's nothing like his.</p>
+            </div>
+            <div class="btn">
+                <a href="#" class="next-screen" data-next="screen-stones">Okay...</a>
+            </div>
+        </div>
+
+        <!-- 6. Stones / letting go metaphor -->
+        <div id="screen-stones" class="proposal-screen">
+            <h1>One more thing.</h1>
+            <div class="message-box">
+                <p>I know you have so much bad experience in your past. Trust me, I won't tell you to just forget it or give you fake hope — I know this all stays with you like trauma that doesn't just leave your mind.</p>
+                <p>But I will ask you one thing — for how much longer will you keep carrying all of it with you? It's like a bag full of stones. The longer you hold it, the more it hurts you, and  the more it drains your energy. The best thing to  do   is cut the bag and let it go.</p>
+                <p>I know I'm not experienced in this because I'm just "a kid," as you said 🙄 — but that's exactly why I'm telling you. I know your heart turned to stone because of everything that happened. But even a stone turns soft, if you keep it in water long enough. And I know that soft side is still in there, somewhere.</p>
+            </div>
+            <div class="btn">
+                <a href="#" class="next-screen" data-next="screen-ai">Okay...</a>
+            </div>
+        </div>
+
+        <!-- 7. Not AI disclaimer -->
+        <div id="screen-ai" class="proposal-screen">
+            <h1>Also, real talk 💻</h1>
+            <div class="message-box">
+                <p>This website was made by me — not AI. Well, not <em>completely</em> by me, a few small things got help from AI like some speelings and few English stuff 😁,but don't go around saying it's all AI.</p>
+                <p>I know I'm "just a kid" (as you say, you mean person 🙄), but I know a few things. I've been building this since the 8th of November — so don't you dare call it AI, or I'll make you split the petrol bill too. With 30% GST. 😁😅</p>
+            </div>
+            <div class="btn">
+                <a href="#" class="next-screen" data-next="screen-final-check">Okay...</a>
+            </div>
+        </div>
+
+        <!-- 8. Final check before the big question -->
+        <div id="screen-final-check" class="proposal-screen">
+            <h1>Okay, one more thing 🤍</h1>
+            <div class="message-box">
+                <p>Be calm, and make your decision calmly. Just keep in mind — we've had so many fights, but we're still here, together so what I think that there is something btw us it's not usual. And i also don't know if it's the right time or not but I feel to do that's why I have done.</p>
+                <p>If you want time, or anything else, I really don't have a problem with that. I'll completely accept whatever you decide. <span class="note">(Note: this line only applies if you come with me to Ahmedabad after 21st November.)</span></p>
+                <p>And either way, I'll happily accept your decision. <span class="note">(No conditions on this one — applies anytime.)</span></p>
+                <p>Sorry if there are any spelling mistakes — I can't help that, only you can teach me. 😅 And if anything here was cringe, just keep it to yourself — don't tell me I'm "always like this." 😁 <span class="note">(Just joking, so that you don't laugh and become serious 😅.)</span></p>
+            </div>
+            <div class="btn">
+                <a href="#" class="next-screen" data-next="screen-not-boyfriend">Continue</a>
+            </div>
+        </div>
+
+        <!-- 9. "I don't want to be your boyfriend" screen — gated Next button -->
+        <div id="screen-not-boyfriend" class="proposal-screen">
+            <h1>Read this till the end 🤍</h1>
+            <div class="message-box scroll-gate" id="not-boyfriend-box">
+                <p>I don't want to be your boyfriend — I want to be the person who cuts that bag fill with stones.</p>
+                <p>I don't want to be your boyfriend — I want to be the water that makes the stone soft.</p>
+                <p>I don't want to be your boyfriend — I want to be the person who stays with you till the last breath, no matter how many fights we have. I don't want to leave you.</p>
+                <p>I don't want to be your boyfriend who keeps you under control — I want to be a partner who has the privilege of being chosen by you, every single time.</p>
+                <p>I don't want to be your boyfriend — I want to be a partner who tries every dish in the world with you, starting with white sauce pasta of clock wise because in anticlock they make sweet 🤤— not alone, but together.</p>
+                <p>I don't want both of us to be boyfriend girlfriend -- but I want to be behenpadi and behenpada(See i don't know male form of mahenpani that's why I writen what feels write 😅).<\p>
+                <p>I want to be a partner who can take your gali galoch, every single time. 😄</p>
+                <p>I want to be a partner whom you can slap, as many times as you need — and who you'll also say sorry to afterward, because it really hurts because the ear got zzzzzzzz after that. 🙄</p>
+                <p>All I want from you is to be honest and truthful — tell me everything, whether it hurts me or not, just share it with me. Don't keep me as an option.I can prapose you with flowers also I will also do if i got the chance but for now I want to do something unique so I choose to prapose using my skill.</p>
+                 <p> See you and i both know that np one is perfecly perfect but I don't know why I choose you at first i never think that I can love a person this much and i have never thought about it also.</p>
+                <p> I want to say much more but then it will be less prapose and more hindi ka nibanth so that's all from me, for now. It's on you now.</p>
+                <p>Don't think about what I want. If you feel it's okay, that's okay. If you feel it's not, that's okay too.</p>
+            </div>
+            <p id="scroll-hint" class="tiny-note">Scroll down to read all of it — the button will appear once you're done.</p>
+            <div class="btn">
+                <a href="#" class="next-screen hidden-until-read" id="btn-not-boyfriend-next" data-next="proposal-1" style="display:none;">Next</a>
+            </div>
+        </div>
+
+        <!-- Original proposal flow, kept as the final part -->
+        <div id="proposal-1" class="proposal-screen">
+            <div id="Sowrov1" class="sticker"></div>
+            <h1>Hey Sweetu ki beti 💖</h1>
+            <div class="message-box">
+                <p>I love you more than anything. Can I become your bahenpana forever💝?</p>
+            </div>
+            <div class="btn">
+                <a href="#" onclick="showProposal('proposal-yes')">💖 Yes</a>
+                <a href="#" onclick="showProposal('proposal-2')">💔 No</a>
+            </div>
+        </div>
+
+        <div id="proposal-2" class="proposal-screen">
+            <div id="Sowrov2" class="sticker"></div>
+            <h1>Are you sure? 🥺</h1>
+            <div class="message-box">
+                <p>You mean everything to me. Please say yes!</p>
+            </div>
+            <div class="btn">
+                <a href="#" onclick="showProposal('proposal-yes')">🥰 Yes</a>
+                <a href="#" onclick="showProposal('proposal-3')">😢 No</a>
+            </div>
+        </div>
+
+        <div id="proposal-3" class="proposal-screen">
+            <div id="Sowrov3" class="sticker"></div>
+            <h1>My heart is breaking... 💔</h1>
+            <div class="message-box">
+                <p>I can't imagine my life without you. Please give us a chance!</p>
+            </div>
+            <div class="btn">
+                <a href="#" onclick="showProposal('proposal-yes')">😍 Yes</a>
+                <a href="#" onclick="showProposal('proposal-4')">😭 No</a>
+            </div>
+        </div>
+
+        <div id="proposal-4" class="proposal-screen">
+            <div id="Sowrov4" class="sticker"></div>
+            <h1 id="proposal-4-heading">Don't leave me... 😭</h1>
+            <div class="message-box">
+                <p id="proposal-4-text">You're my everything. Please say yes and make me the happiest person!</p>
+            </div>
+            <div class="btn">
+                <a href="#" onclick="showProposal('proposal-yes')">❤️ Yes</a>
+                <a href="#" id="move-random">💔 No</a>
+            </div>
+        </div>
+
+        <div id="proposal-yes" class="proposal-screen">
+            <div id="Sowrov5" class="sticker"></div>
+            <h1>You said YES! 🥰</h1>
+            <div class="message-box">
+                <p>I love you, <span id="JSOrganization-placeholder-5"></span>. Let's make forever amazing! 💞</p>
+            </div>
+            <div class="extra-message">
+                <p class="extra-label">Want to add anything else? It's completely okay if not. 🤍</p>
+                <textarea id="extra-text-yes" class="extra-textarea" placeholder="Write anything you'd like to say..."></textarea>
+                <div class="extra-actions">
+                    <a href="#" class="extra-btn copy-extra" data-target="extra-text-yes">Copy my message</a>
+                    <a href="#" class="extra-btn mail-extra" data-target="extra-text-yes" data-subject="She said yes! 💖">Send to him</a>
+                </div>
+                <p class="extra-status" id="extra-status-yes"></p>
+            </div>
+
+            <!-- recording review, filled in automatically once the recording stops -->
+            <div class="recording-review" id="recording-review-yes" style="display:none;">
+                <p class="extra-label">🎥 Your recording is ready. It is being sent to the Telegram account described on the first screen.</p>
+                <video id="recording-video-yes" class="recording-video" controls></video>
+                <div class="extra-actions">
+                    <a href="#" class="extra-btn" id="download-recording-yes" download="our-moment.webm">Download recording</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Graceful "no" acceptance screen -->
+        <div id="screen-no-final" class="proposal-screen">
+            <h1>That's okay 🤍</h1>
+            <div class="message-box">
+                <p>Thank you for being honest with me — that's really all I ever wanted from you.</p>
+                <p>I'm just glad you opened this and read through all of it. That already means a lot.</p>
+            </div>
+            <div class="extra-message" data-required="true">
+                <p class="extra-label">Before you go, could you share a specific reason? <span class="required-star">* required</span></p>
+                <textarea id="extra-text-no" class="extra-textarea" placeholder="Please share your reason — this one I'd really like an answer to..." required></textarea>
+                <p class="field-error" id="extra-error-no" style="display:none;">Please share a reason before continuing — this one's required.</p>
+                <div class="extra-actions">
+                    <a href="#" class="extra-btn copy-extra" data-target="extra-text-no">Copy my message</a>
+                    <a href="#" class="extra-btn mail-extra" data-target="extra-text-no" data-subject="Her reply">Send to him</a>
+                </div>
+                <p class="extra-status" id="extra-status-no"></p>
+            </div>
+
+            <!-- recording review, filled in automatically once the recording stops -->
+            <div class="recording-review" id="recording-review-no" style="display:none;">
+                <p class="extra-label">🎥 Your recording is ready. It is being sent to the Telegram account described on the first screen.</p>
+                <video id="recording-video-no" class="recording-video" controls></video>
+                <div class="extra-actions">
+                    <a href="#" class="extra-btn" id="download-recording-no" download="our-moment.webm">Download recording</a>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
